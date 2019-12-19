@@ -16,6 +16,22 @@ var twistB = &gfP2{
 	gfP{0xb94f760fb4c5ee14, 0xdae9f8f24c3b6eb4, 0x77a675d2e52f4fe4, 0x736f31b09116c66b},
 }
 
+//Gen2 is the generator of group G₂ for external call.
+var Gen2 = &G2{
+	&twistPoint{
+		gfP2{
+			gfP{0x402c4ab7139e1404, 0xce1c368a183d85a4, 0xd67cf9a6cb8d3983, 0x3cf246bbc2a9fbe8},
+			gfP{0x88f9f11da7cdc184, 0x18293f95d69509d3, 0xb5ce0c55a735d5a1, 0x15134189bfd45a0},
+		},
+		gfP2{
+			gfP{0xbfac7d731e9e87a2, 0xa50bb8007962e441, 0xafe910a4e8270556, 0x5075c5429d69159a},
+			gfP{0xc2e07c1463ea9e56, 0xee4442052072ebd2, 0x561a519486036937, 0x5bd9394cc0d2cce},
+		},
+		gfP2{*newGFp(0), *newGFp(1)},
+		gfP2{*newGFp(0), *newGFp(1)},
+	},
+}
+
 // twistGen is the generator of group G₂.
 var twistGen = &twistPoint{
 	gfP2{
@@ -145,15 +161,15 @@ func (c *twistPoint) Double(a *twistPoint) {
 	t.Add(d, d)
 	c.x.Sub(f, t)
 
-	c.z.Mul(&a.y, &a.z)
-	c.z.Add(&c.z, &c.z)
-
 	t.Add(C, C)
 	t2.Add(t, t)
 	t.Add(t2, t2)
 	c.y.Sub(d, &c.x)
 	t2.Mul(e, &c.y)
 	c.y.Sub(t2, t)
+
+	t.Mul(&a.y, &a.z)
+	c.z.Add(t, t)
 }
 
 func (c *twistPoint) Mul(a *twistPoint, scalar *big.Int) {

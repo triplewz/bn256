@@ -12,6 +12,16 @@ type curvePoint struct {
 
 var curveB = newGFp(3)
 
+//Gen1 is the generator of group G₁ for external call.
+var Gen1 = &G1{
+	&curvePoint{
+		x: *newGFp(1),
+		y: *newGFp(-2),
+		z: *newGFp(1),
+		t: *newGFp(1),
+	},
+}
+
 // curveGen is the generator of G₁.
 var curveGen = &curvePoint{
 	x: *newGFp(1),
@@ -171,15 +181,15 @@ func (c *curvePoint) Double(a *curvePoint) {
 	gfpAdd(t, d, d)
 	gfpSub(&c.x, f, t)
 
-	gfpMul(&c.z, &a.y, &a.z)
-	gfpAdd(&c.z, &c.z, &c.z)
-
 	gfpAdd(t, C, C)
 	gfpAdd(t2, t, t)
 	gfpAdd(t, t2, t2)
 	gfpSub(&c.y, d, &c.x)
 	gfpMul(t2, e, &c.y)
 	gfpSub(&c.y, t2, t)
+
+	gfpMul(t, &a.y, &a.z)
+	gfpAdd(&c.z, t, t)
 }
 
 func (c *curvePoint) Mul(a *curvePoint, scalar *big.Int) {
