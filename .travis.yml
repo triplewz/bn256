@@ -1,0 +1,11 @@
+language: go
+arch:
+  - amd64
+  - arm64
+go:
+  - 1.14.x
+  - 1.13.x
+install:
+  - go get github.com/triplewz/bn256
+script:
+  - go test -v
