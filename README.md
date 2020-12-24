@@ -1,6 +1,8 @@
 bn256
 -----
 
+[![Build Status](https://travis-ci.com/triplewz/bn256.svg?branch=master)](https://travis-ci.com/triplewz/bn256)
+
 Package bn256 implements a particular bilinear group.
 
 Bilinear groups are the basis of many of the new cryptographic protocols that
